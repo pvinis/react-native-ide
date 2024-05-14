@@ -16,7 +16,7 @@ const ProjectContext = createContext<ProjectContextProps>({
     previewURL: undefined,
     selectedDevice: undefined,
   },
-  deviceSettings: { appearance: "dark", contentSize: "normal" },
+  deviceSettings: { appearance: "dark", contentSize: "normal", biometricEnrollment: false },
   project,
 });
 
@@ -29,6 +29,7 @@ export default function ProjectProvider({ children }: PropsWithChildren) {
   const [deviceSettings, setDeviceSettings] = useState<DeviceSettings>({
     appearance: "dark",
     contentSize: "normal",
+    biometricEnrollment: false,
   });
 
   useEffect(() => {

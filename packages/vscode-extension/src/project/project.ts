@@ -63,6 +63,7 @@ export class Project implements Disposable, MetroDelegate, ProjectInterface {
     this.deviceSettings = extensionContext.workspaceState.get(DEVICE_SETTINGS_KEY) ?? {
       appearance: "dark",
       contentSize: "normal",
+      biometricEnrollment: false,
     };
     this.devtools = new Devtools();
     this.metro = new Metro(this.devtools, this);
@@ -364,6 +365,9 @@ export class Project implements Disposable, MetroDelegate, ProjectInterface {
     extensionContext.workspaceState.update(DEVICE_SETTINGS_KEY, settings);
     await this.deviceSession?.changeDeviceSettings(settings);
     this.eventEmitter.emit("deviceSettingsChanged", this.deviceSettings);
+  }
+  public async sendBiometricAuthorization(match: boolean) {
+    await this.deviceSession?.sendBiometricAuthorization(match);
   }
 
   private reportStageProgress(stageProgress: number, stage: string) {

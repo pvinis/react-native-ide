@@ -3,6 +3,7 @@ import { DeviceInfo } from "./DeviceManager";
 export type DeviceSettings = {
   appearance: "light" | "dark";
   contentSize: "xsmall" | "small" | "normal" | "large" | "xlarge" | "xxlarge" | "xxxlarge";
+  biometricEnrollment: boolean;
 };
 
 export type ProjectState = {
@@ -90,6 +91,7 @@ export interface ProjectInterface {
 
   getDeviceSettings(): Promise<DeviceSettings>;
   updateDeviceSettings(deviceSettings: DeviceSettings): Promise<void>;
+  sendBiometricAuthorization(match: boolean): Promise<void>;
 
   reportIssue(): Promise<void>;
 
