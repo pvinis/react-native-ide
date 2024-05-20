@@ -30,7 +30,7 @@ interface EmulatorProcessInfo {
 }
 
 export class AndroidEmulatorDevice extends DeviceBase {
-  private emulatorProcess: ChildProcess | undefined;
+  public emulatorProcess: ChildProcess | undefined;
   private serial: string | undefined;
 
   constructor(private readonly avdId: string) {
@@ -49,7 +49,7 @@ export class AndroidEmulatorDevice extends DeviceBase {
 
   public dispose(): void {
     super.dispose();
-    this.emulatorProcess?.kill();
+    this.emulatorProcess?.kill(9);
   }
 
   async changeSettings(settings: DeviceSettings) {
@@ -71,7 +71,6 @@ export class AndroidEmulatorDevice extends DeviceBase {
     if (this.emulatorProcess) {
       this.emulatorProcess.kill(9);
     }
-
     const avdDirectory = getOrCreateAvdDirectory();
     const subprocess = exec(
       EMULATOR_BINARY,
