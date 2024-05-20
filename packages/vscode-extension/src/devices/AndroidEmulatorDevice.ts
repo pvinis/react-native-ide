@@ -71,6 +71,7 @@ export class AndroidEmulatorDevice extends DeviceBase {
     if (this.emulatorProcess) {
       this.emulatorProcess.kill(9);
     }
+
     const avdDirectory = getOrCreateAvdDirectory();
     const subprocess = exec(
       EMULATOR_BINARY,
