@@ -30,7 +30,7 @@ interface EmulatorProcessInfo {
 }
 
 export class AndroidEmulatorDevice extends DeviceBase {
-  public emulatorProcess: ChildProcess | undefined;
+  private emulatorProcess: ChildProcess | undefined;
   private serial: string | undefined;
 
   constructor(private readonly avdId: string) {
