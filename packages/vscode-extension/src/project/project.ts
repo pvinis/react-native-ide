@@ -414,7 +414,13 @@ export class Project implements Disposable, MetroDelegate, ProjectInterface {
     this.reloadingMetro = false;
     const prevSession = this.deviceSession;
     this.deviceSession = undefined;
-    prevSession?.dispose();
+    const prevSessionPlatform = prevSession?.getDevice().platform;
+
+    const sessionDisposePromise = prevSession?.dispose();
+
+    if (prevSessionPlatform === deviceInfo.platform) {
+      await sessionDisposePromise;
+    }
 
     this.updateProjectState({
       selectedDevice: deviceInfo,

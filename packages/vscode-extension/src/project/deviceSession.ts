@@ -25,10 +25,12 @@ export class DeviceSession implements Disposable {
     private readonly disposableBuild: DisposableBuild<BuildResult>
   ) {}
 
-  public dispose() {
-    this.debugSession && debug.stopDebugging(this.debugSession);
-    this.disposableBuild?.dispose();
-    this.device?.dispose();
+  public async dispose() {
+    return Promise.all([
+      this.device?.dispose(),
+      this.disposableBuild?.dispose(),
+      this.debugSession && debug.stopDebugging(this.debugSession),
+    ]);
   }
 
   get isActive() {
@@ -171,5 +173,9 @@ export class DeviceSession implements Disposable {
 
   public async changeDeviceSettings(settings: DeviceSettings) {
     await this.device.changeSettings(settings);
+  }
+
+  public getDevice() {
+    return this.device;
   }
 }

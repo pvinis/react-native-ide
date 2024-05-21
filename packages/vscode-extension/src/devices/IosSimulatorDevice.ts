@@ -50,7 +50,7 @@ export class IosSimulatorDevice extends DeviceBase {
     return pidFile;
   }
 
-  public dispose() {
+  public async dispose() {
     super.dispose();
     return exec("xcrun", ["simctl", "--set", getOrCreateDeviceSet(), "shutdown", this.deviceUDID]);
   }

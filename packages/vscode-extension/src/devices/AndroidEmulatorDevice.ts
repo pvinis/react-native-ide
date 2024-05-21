@@ -18,6 +18,7 @@ import { EXPO_GO_PACKAGE_NAME, fetchExpoLaunchDeeplink } from "../builders/expoG
 
 export const EMULATOR_BINARY = path.join(ANDROID_HOME, "emulator", "emulator");
 const ADB_PATH = path.join(ANDROID_HOME, "platform-tools", "adb");
+const DISPOSE_TIMEOUT = 3000;
 
 interface EmulatorProcessInfo {
   pid: number;
@@ -47,9 +48,18 @@ export class AndroidEmulatorDevice extends DeviceBase {
     return pidFile;
   }
 
-  public dispose(): void {
+  public dispose(): Promise<void> {
     super.dispose();
-    this.emulatorProcess?.kill(9);
+    this.emulatorProcess?.kill();
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        this.emulatorProcess?.kill(9);
+        resolve();
+      }, DISPOSE_TIMEOUT);
+      this.emulatorProcess?.on("exit", () => {
+        resolve();
+      });
+    });
   }
 
   async changeSettings(settings: DeviceSettings) {

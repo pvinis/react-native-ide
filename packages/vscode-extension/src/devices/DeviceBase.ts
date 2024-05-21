@@ -27,7 +27,7 @@ export abstract class DeviceBase implements Disposable {
     return acquired;
   }
 
-  dispose() {
+  async dispose(): Promise<any> {
     if (this.acquired) {
       try {
         fs.unlinkSync(this.lockFilePath);
